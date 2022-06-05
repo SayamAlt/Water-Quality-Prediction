@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Quality Prediction</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: aqua;
+        }
+        .navbar-brand {
+            display: block;
+            margin: auto;
+            color: sienna;
+            font-weight: bold;
+            font-family: "Helvetica";
+        }
+        .submit-button {
+            display: block;
+            margin: auto;
+        }
+        h1 {
+            color: magenta;
+            font-weight: bold;
+            font-family: 'Arial', sans-serif;
+        }
+        h3 {
+            text-align: center;
+            font-weight: bold;
+            color: #02157d;
+            font-family: 'Cooper Black', serif;
+        }
+        h5 {
+            color: green;
+            font-weight: bold;
+        }
+        .card {
+            display: block;
+            margin: auto;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0e356;
+        }
+        p {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #de1623;
+        }
+        p:hover {
+            color: #f50515;
+            font-weight: bold;
+            font-style: normal;
+            font-family: 'Helvetica',sans-serif;
+            font-size: 1.6rem;
+            filter: brightness(150%);
+        }
+        .first_row {
+            margin-top: 3rem;
+        }
+        .last_row {
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-light bg-light">
+        <span class="navbar-brand mb-0 h1"><h1>Water Quality Prediction<h1></span>
+    </nav>
+    <div class="container">
+        <form action="/predict" method="post">
+            <div class="row first_row">
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">pH:</h5>
+                            <input type="number" min="0.00" max="14.00" step="0.01" name="ph" id="ph" required="required">
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Hardness:</h5>
+                            <input type="number" step="0.01" min="117.12" max="276.39" name="hardness" id="hardness" required="required">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Solids:</h5>
+                            <input type="number" step="0.01" min="320.94" max="44831.86" name="solids" id="solids" required="required">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Chloramines:</h5>
+                            <input type="number" step="0.01" min="3.14" max="11.09" name="chloramines" id="chloramines" required="required">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Sulfate:</h5>
+                            <input type="number" step="0.01" min="267.15" max="400.32" name="sulfate" id="sulfate" required="required">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Conductivity:</h5>
+                            <input type="number" step="0.01" min="191.64" max="655.87" name="conductivity" id="conductivity" required="required">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Organic Carbon:</h5>
+                            <input type="number" step="0.01" min="5.32" max="23.29" name="organic_carbon" id="organic_carbon" required="required">
+                    </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Trihalomethanes:</h5>
+                            <input type="number" step="0.01" min="26.61" max="106.69" name="trihalomethanes" id="trihalomethanes" required="required">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row last_row">
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Turbidity:</h5>
+                            <input type="number" step="0.01" min="1.84" max="6.09" name="turbidity" id="turbidity" required="required">
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <br><br>
+            <!-- Submit -->
+            <input type="submit" value="Submit" class="btn btn-primary submit-button">
+        </form>
+        <br>
+        <h3 class="predict-dec">{{ prediction_text }}</h3> 
+        <br>
+        <p>@{{ current_year }} Sayam Kumar</p>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+</body>
+</html>
